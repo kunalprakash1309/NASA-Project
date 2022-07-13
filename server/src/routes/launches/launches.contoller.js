@@ -1,4 +1,9 @@
-const { getAllLaunches, addNewLaunch } = require('../../models/launches.model');
+const {
+  existsLaunchWithId, 
+  getAllLaunches, 
+  addNewLaunch,
+  abortLaunchById, 
+} = require('../../models/launches.model');
 
 function httpGetAllLaunches(req, res) {
   // convert MAP object to array. Because res.json() takes certain types. eg array, plain object
@@ -29,7 +34,23 @@ function httpAddNewLaunch(req, res) {
   return res.status(201).json(launch);
 }
 
+function httpAbbortLaunch(req, res) {
+  const flightNumber = Number(req.params.id);
+
+  // if flight exist or not
+  if(!existsLaunchWithId(flightNumber)){
+    return res.status(404).json({
+      error: 'Launch not found',
+    })
+  }
+
+  // if launch does exist
+  const aborted = abortLaunchById(flightNumber)
+  return res.status(200).json(aborted)
+}
+
 module.exports = {
   httpGetAllLaunches,
   httpAddNewLaunch,
+  httpAbbortLaunch
 }
