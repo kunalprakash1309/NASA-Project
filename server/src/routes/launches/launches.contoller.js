@@ -5,10 +5,10 @@ const {
   abortLaunchById, 
 } = require('../../models/launches.model');
 
-function httpGetAllLaunches(req, res) {
+async function httpGetAllLaunches(req, res) {
   // convert MAP object to array. Because res.json() takes certain types. eg array, plain object
   // we need to convert it to json readable by converting to array(by [...lauches.value()] or below option)
-  return res.status(200).json(getAllLaunches());
+  return res.status(200).json(await getAllLaunches());
 };
 
 function httpAddNewLaunch(req, res) {
