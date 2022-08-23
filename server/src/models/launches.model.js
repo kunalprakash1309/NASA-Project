@@ -8,7 +8,7 @@ const planets = require('./planets.mongo');
 const launches = new Map();
 
 // local state for flight number
-let latestFlightNumber = 100;
+const DEFAULT_FLIGHT_NUMBER = 100;
 
 // data model required by frontend
 const launch = {
@@ -35,6 +35,16 @@ saveLaunch(launch);
 
 function existsLaunchWithId(launchId) {
   return launches.has(launchId);
+}
+
+function getLatestFlightNumber() {
+  const latestLaunch = await launchesDatabase.findOne({}).sort('-flightNumber');
+
+  if(!latestFlightNumber) {
+    return DEFAULT_FLIGHT_NUMBER;
+  }
+
+  return latestLaunch.flightNumber;
 }
 
 async function getAllLaunches() {
