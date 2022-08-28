@@ -1,13 +1,15 @@
 const http = require('http');
 const mongoose = require('mongoose');
 
+require('dotenv').config()
+
 const app = require('./app');
 
 const { loadPlanetsData } = require('./models/planets.model');
 const { loadLaunchesData } = require('./models/launches.model');
 const PORT = process.env.PORT || 8000;
 
-const MONGO_URL = "mongodb+srv://nasa-api:SMHbiPHswQdXIt1j@nasacluster.xbribzc.mongodb.net/nasa?retryWrites=true&w=majority";
+const MONGO_URL = process.env.MONGO_URL;
 
 // we pass request listner to createServer(). i.e app is a request listner
 const server = http.createServer(app);
